@@ -252,6 +252,70 @@ namespace DLLClass
             
             Console.WriteLine("Binary values: " + string.Join(", ", values));
         }
+        //I figured I would set a temporary node just to make it easier to
+        //go through the entire list then swap head and tail afterwards
+        //O(n)
+        public void ReverseList()
+        {
+            if (head == null) return;
+            Node current = head;
+            while(current != null)
+            {
+                Node temp = current.next;
+                current.next = current.prev;
+                current.prev = current.next;
+                current = temp;
+            }
+            head = tail;
+            tail = head;
+
+        }
+        //I was thinking of sorting them through the dummy nodes then remove the dummy nodes once the loop had finished
+        //O(n)
+
+        public void PartitionList(int x)
+        {
+            Node dummyNode1 = new Node(0);
+            Node dummyNode2 = new Node(0);
+
+            Node lessTail = dummyNode1;
+            Node greaterTail = dummyNode2;
+            Node current = head;
+            while(current != null)
+            {
+                Node next = current.next;
+                if(current.value < x)
+                {
+                    lessTail.next = current;
+                    current.prev = lessTail;
+                    lessTail = current;
+                }
+                else
+                {
+                    greaterTail.next = current;
+                    current.prev = greaterTail;
+                    greaterTail = current;
+                }
+                current = next;
+            }
+            Node lessHead = dummyNode1.next;
+            Node greaterHead = dummyNode2.next;
+
+            lessTail.next = greaterHead;
+
+            if (greaterHead != null)
+            {
+                greaterHead.prev = lessTail;
+            }
+
+            head = lessHead;
+
+            if (head != null)
+            {
+                head.prev = null;
+            }
+
+        }
     }
     
 
